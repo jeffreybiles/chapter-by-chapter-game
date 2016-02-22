@@ -5,13 +5,16 @@ export default Ember.Component.extend(KeyboardShortcuts, {
   didInsertElement: function() {
     this.drawCircle();
   },
-
+  
+  x: 50,
+  y: 100,
+  squareSize: 40,
   drawCircle: function() {
     let canvas = document.getElementById("myCanvas");
     let ctx = canvas.getContext("2d");
-    let x = 50;
-    let y = 100;
-    let radius = 20;
+    let x = this.get('x');
+    let y = this.get('y');
+    let radius = this.get('squareSize')/2;
 
     ctx.fillStyle = '#000';
     ctx.beginPath();
