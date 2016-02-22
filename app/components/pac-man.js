@@ -1,6 +1,7 @@
 import Ember from 'ember';
+import KeyboardShortcuts from 'ember-keyboard-shortcuts/mixins/component';
 
-export default Ember.Component.extend({
+export default Ember.Component.extend(KeyboardShortcuts, {
   didInsertElement: function() {
     this.drawCircle();
   },
@@ -17,5 +18,12 @@ export default Ember.Component.extend({
     ctx.arc(x, y, radius, 0, Math.PI * 2, false);
     ctx.closePath();
     ctx.fill();
+  },
+
+  keyboardShortcuts: {
+    up: function() { console.log('up');},
+    down: function() { console.log('down');},
+    left: function() { console.log('left');},
+    right: function() { console.log('right');},
   },
 });
