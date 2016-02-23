@@ -5,7 +5,7 @@ export default Ember.Component.extend(KeyboardShortcuts, {
   didInsertElement: function() {
     this.drawCircle();
   },
-  
+
   x: 50,
   y: 100,
   squareSize: 40,
@@ -24,9 +24,9 @@ export default Ember.Component.extend(KeyboardShortcuts, {
   },
 
   keyboardShortcuts: {
-    up: function() { console.log('up');},
-    down: function() { console.log('down');},
-    left: function() { console.log('left');},
-    right: function() { console.log('right');},
+    up: function() { this.incrementProperty('y', -1 * this.get('squareSize')); this.drawCircle()},
+    down: function()  { this.incrementProperty('y', this.get('squareSize')); this.drawCircle()},
+    left: function() { this.incrementProperty('x', -1 * this.get('squareSize')); this.drawCircle()},
+    right: function() { this.incrementProperty('x', this.get('squareSize')); this.drawCircle()},
   },
 });
