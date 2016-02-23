@@ -23,10 +23,19 @@ export default Ember.Component.extend(KeyboardShortcuts, {
     ctx.fill();
   },
 
+  clearScreen: function(){
+    let canvas = document.getElementById("myCanvas");
+    let ctx = canvas.getContext("2d");
+    let screenWidth = 800;
+    let screenHeight = 600;
+
+    ctx.clearRect(0, 0, screenWidth, screenHeight)
+  },
+
   keyboardShortcuts: {
-    up: function() { this.incrementProperty('y', -1 * this.get('squareSize')); this.drawCircle()},
-    down: function()  { this.incrementProperty('y', this.get('squareSize')); this.drawCircle()},
-    left: function() { this.incrementProperty('x', -1 * this.get('squareSize')); this.drawCircle()},
-    right: function() { this.incrementProperty('x', this.get('squareSize')); this.drawCircle()},
+    up: function() { this.incrementProperty('y', -1 * this.get('squareSize')); this.clearScreen(); this.drawCircle()},
+    down: function()  { this.incrementProperty('y', this.get('squareSize')); this.clearScreen(); this.drawCircle()},
+    left: function() { this.incrementProperty('x', -1 * this.get('squareSize')); this.clearScreen(); this.drawCircle()},
+    right: function() { this.incrementProperty('x', this.get('squareSize')); this.clearScreen(); this.drawCircle()},
   },
 });
