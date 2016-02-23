@@ -6,9 +6,11 @@ export default Ember.Component.extend(KeyboardShortcuts, {
     this.drawCircle();
   },
 
-  x: 50,
-  y: 100,
+  x: 1,
+  y: 2,
   squareSize: 40,
+  screenWidth: 20,
+  screenHeight: 15,
   ctx: Ember.computed(function(){
     let canvas = document.getElementById("myCanvas");
     let ctx = canvas.getContext("2d");
@@ -18,21 +20,24 @@ export default Ember.Component.extend(KeyboardShortcuts, {
     let ctx = this.get('ctx');
     let x = this.get('x');
     let y = this.get('y');
-    let radius = this.get('squareSize')/2;
+    let squareSize = this.get('squareSize');
+
+    let pixelX = (x+1/2) * squareSize;
+    let pixelY = (y+1/2) * squareSize;
 
     ctx.fillStyle = '#000';
     ctx.beginPath();
-    ctx.arc(x, y, radius, 0, Math.PI * 2, false);
+    ctx.arc(pixelX, pixelY, squareSize/2, 0, Math.PI * 2, false);
     ctx.closePath();
     ctx.fill();
   },
 
   clearScreen: function(){
     let ctx = this.get('ctx');
-    let screenWidth = 800;
-    let screenHeight = 600;
+    let screenPixelWidth = this.get('screenWidth') * this.get('squareSize');
+    let screenPixelHeight = this.get('screenHeight') * this.get('squareSize');
 
-    ctx.clearRect(0, 0, screenWidth, screenHeight)
+    ctx.clearRect(0, 0, screenPixelWidth, screenPixelHeight)
   },
 
   movePacMan: function(direction, amount){
@@ -42,9 +47,9 @@ export default Ember.Component.extend(KeyboardShortcuts, {
   },
 
   keyboardShortcuts: {
-    up: function() { this.movePacMan('y', -1 * this.get('squareSize'));},
-    down: function()  { this.movePacMan('y', this.get('squareSize'));},
-    left: function() { this.movePacMan('x', -1 * this.get('squareSize'));},
-    right: function() { this.movePacMan('x', this.get('squareSize'));},
+    up: function() { this.movePacMan('y', -1);},
+    down: function()  { this.movePacMan('y', 1);},
+    left: function() { this.movePacMan('x', -1);},
+    right: function() { this.movePacMan('x', 1);},
   },
 });
