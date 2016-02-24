@@ -4,7 +4,7 @@ import KeyboardShortcuts from 'ember-keyboard-shortcuts/mixins/component';
 export default Ember.Component.extend(KeyboardShortcuts, {
   didInsertElement: function() {
     this.drawGrid();
-    this.drawCircle();
+    this.drawPac();
   },
 
   x: 1,
@@ -50,20 +50,6 @@ export default Ember.Component.extend(KeyboardShortcuts, {
                  squareSize)
   },
 
-  drawPellet(x, y){
-    let ctx = this.get('ctx')
-    let squareSize = this.get('squareSize');
-
-    let pixelX = (x+1/2) * squareSize;
-    let pixelY = (y+1/2) * squareSize;
-
-    ctx.fillStyle = '#000';
-    ctx.beginPath();
-    ctx.arc(pixelX, pixelY, squareSize/6, 0, Math.PI * 2, false);
-    ctx.closePath();
-    ctx.fill();
-  },
-
   drawGrid: function(){
     let grid = this.get('grid');
     grid.forEach((row, rowIndex)=>{
@@ -78,10 +64,20 @@ export default Ember.Component.extend(KeyboardShortcuts, {
     })
   },
 
-  drawCircle: function() {
-    let ctx = this.get('ctx');
+  drawPac(){
     let x = this.get('x');
     let y = this.get('y');
+    let radiusDivisor = 2;
+    this.drawCircle(x, y, radiusDivisor)
+  },
+
+  drawPellet(x, y){
+    let radiusDivisor = 6;
+    this.drawCircle(x, y, radiusDivisor)
+  },
+
+  drawCircle(x, y, radiusDivisor) {
+    let ctx = this.get('ctx')
     let squareSize = this.get('squareSize');
 
     let pixelX = (x+1/2) * squareSize;
@@ -89,7 +85,7 @@ export default Ember.Component.extend(KeyboardShortcuts, {
 
     ctx.fillStyle = '#000';
     ctx.beginPath();
-    ctx.arc(pixelX, pixelY, squareSize/2, 0, Math.PI * 2, false);
+    ctx.arc(pixelX, pixelY, squareSize/radiusDivisor, 0, Math.PI * 2, false);
     ctx.closePath();
     ctx.fill();
   },
@@ -108,7 +104,7 @@ export default Ember.Component.extend(KeyboardShortcuts, {
 
     this.clearScreen();
     this.drawGrid();
-    this.drawCircle();
+    this.drawPac();
   },
 
   collidedWithBorder: function(){
