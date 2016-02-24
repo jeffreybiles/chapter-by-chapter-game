@@ -9,9 +9,15 @@ export default Ember.Component.extend(KeyboardShortcuts, {
 
   x: 1,
   y: 2,
-  walls: [
-    {x: 1, y: 1},
-    {x: 8, y: 5}
+  // 0 is a blank space
+  // 1 is a wall
+  grid: [
+    [0, 0, 0, 0, 0, 0, 0, 1],
+    [0, 1, 0, 1, 0, 0, 0, 1],
+    [0, 0, 1, 0, 0, 0, 0, 1],
+    [0, 0, 0, 0, 0, 0, 0, 1],
+    [0, 0, 0, 0, 0, 0, 0, 1],
+    [1, 0, 0, 0, 0, 0, 0, 1],
   ],
   squareSize: 40,
   screenWidth: 20,
@@ -33,12 +39,16 @@ export default Ember.Component.extend(KeyboardShortcuts, {
     let ctx = this.get('ctx');
     ctx.fillStyle = '#000';
 
-    let walls = this.get('walls');
-    walls.forEach(function(wall){
-      ctx.fillRect(wall.x * squareSize,
-                   wall.y * squareSize,
-                   squareSize,
-                   squareSize)
+    let grid = this.get('grid');
+    grid.forEach(function(row, rowIndex){
+      row.forEach(function(cell, columnIndex){
+        if(cell == 1){
+          ctx.fillRect(columnIndex * squareSize,
+                       rowIndex * squareSize,
+                       squareSize,
+                       squareSize)
+        }
+      })
     })
   },
 
