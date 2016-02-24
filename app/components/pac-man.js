@@ -3,11 +3,16 @@ import KeyboardShortcuts from 'ember-keyboard-shortcuts/mixins/component';
 
 export default Ember.Component.extend(KeyboardShortcuts, {
   didInsertElement: function() {
+    this.drawWalls();
     this.drawCircle();
   },
 
   x: 1,
   y: 2,
+  walls: [
+    {x: 1, y: 1},
+    {x: 8, y: 5}
+  ],
   squareSize: 40,
   screenWidth: 20,
   screenHeight: 15,
@@ -22,6 +27,21 @@ export default Ember.Component.extend(KeyboardShortcuts, {
     let ctx = canvas.getContext("2d");
     return ctx;
   }),
+
+  drawWalls: function(){
+    let squareSize = this.get('squareSize');
+    let ctx = this.get('ctx');
+    ctx.fillStyle = '#000';
+
+    let walls = this.get('walls');
+    walls.forEach(function(wall){
+      ctx.fillRect(wall.x * squareSize,
+                   wall.y * squareSize,
+                   squareSize,
+                   squareSize)
+    })
+  },
+
   drawCircle: function() {
     let ctx = this.get('ctx');
     let x = this.get('x');
@@ -51,6 +71,7 @@ export default Ember.Component.extend(KeyboardShortcuts, {
     }
 
     this.clearScreen();
+    this.drawWalls();
     this.drawCircle();
   },
 
