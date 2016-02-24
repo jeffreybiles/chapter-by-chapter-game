@@ -20,8 +20,12 @@ export default Ember.Component.extend(KeyboardShortcuts, {
     [1, 0, 0, 0, 0, 0, 0, 1],
   ],
   squareSize: 40,
-  screenWidth: 20,
-  screenHeight: 15,
+  screenWidth: Ember.computed(function(){
+    return this.get('grid.firstObject.length')
+  }),
+  screenHeight: Ember.computed(function(){
+    return this.get('grid.length');
+  }),
   screenPixelWidth: Ember.computed(function(){
     return this.get('screenWidth') * this.get('squareSize');
   }),
@@ -101,12 +105,9 @@ export default Ember.Component.extend(KeyboardShortcuts, {
   collidedWithWall: function(){
     let x = this.get('x');
     let y = this.get('y');
-    let walls = this.get('walls');
+    let grid = this.get('grid');
 
-    return walls.any(function(wall){
-      return x == wall.x &&
-             y == wall.y
-    })
+    return grid[y][x] == 1
   },
 
   keyboardShortcuts: {
