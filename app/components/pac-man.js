@@ -7,6 +7,7 @@ export default Ember.Component.extend(KeyboardShortcuts, {
     this.drawPac();
   },
 
+  score: 0,
   x: 1,
   y: 2,
   // 0 is a blank space
@@ -137,6 +138,7 @@ export default Ember.Component.extend(KeyboardShortcuts, {
 
     if(grid[y][x] == 2){
       grid[y][x] = 0;
+      this.incrementProperty('score')
     }
   },
 
