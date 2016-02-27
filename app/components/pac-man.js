@@ -3,11 +3,11 @@ import KeyboardShortcuts from 'ember-keyboard-shortcuts/mixins/component';
 
 export default Ember.Component.extend(KeyboardShortcuts, {
   didInsertElement() {
-    this.drawGrid();
-    this.drawPac();
+    this.movementLoop();
   },
+
   isMoving: false,
-  direction: 'stopped',
+  direction: 'down',
   frameCycle: 1,
   framesPerMovement: 30,
 
@@ -126,6 +126,8 @@ export default Ember.Component.extend(KeyboardShortcuts, {
       this.set('frameCycle', 1);
 
       this.processAnyPellets();
+
+      Ember.run.later(this, function(){this.movePacMan(direction)}, 1000/60)
     } else {
       this.incrementProperty('frameCycle');
       Ember.run.later(this, this.movementLoop, 1000/60);
