@@ -74,20 +74,25 @@ export default Ember.Component.extend(KeyboardShortcuts, {
     let x = this.get('x');
     let y = this.get('y');
     let radiusDivisor = 2;
-    this.drawCircle(x, y, radiusDivisor)
+    this.drawCircle(x, y, radiusDivisor, this.get('direction'));
   },
 
   drawPellet(x, y){
     let radiusDivisor = 6;
-    this.drawCircle(x, y, radiusDivisor)
+    this.drawCircle(x, y, radiusDivisor, 'stopped');
   },
 
-  drawCircle(x, y, radiusDivisor) {
+  offsetFor(coordinate, direction){
+    let frameRatio = this.get('frameCycle') / this.get('framesPerMovement');
+    return this.get(`directions.${direction}.${coordinate}`) * frameRatio;
+  },
+
+  drawCircle(x, y, radiusDivisor, direction) {
     let ctx = this.get('ctx')
     let squareSize = this.get('squareSize');
 
-    let pixelX = (x+1/2) * squareSize;
-    let pixelY = (y+1/2) * squareSize;
+    let pixelX = (x + 1/2 + this.offsetFor('x', direction)) * squareSize;
+    let pixelY = (y + 1/2 + this.offsetFor('y', direction)) * squareSize;
 
     ctx.fillStyle = '#000';
     ctx.beginPath();
