@@ -106,7 +106,7 @@ export default Ember.Component.extend(KeyboardShortcuts, {
     ctx.clearRect(0, 0, this.get('screenPixelWidth'), this.get('screenPixelHeight'))
   },
 
-  movePacMan: function(direction){
+  movePacMan(direction){
     if(this.get('isMoving') || this.pathBlockedInDirection(direction)){
       // do nothing, just wait it out
     } else {
