@@ -6,6 +6,10 @@ export default Ember.Component.extend(KeyboardShortcuts, {
     this.drawGrid();
     this.drawPac();
   },
+  isMoving: false,
+  direction: 'stopped',
+  frameCycle: 1,
+  framesPerMovement: 30,
 
   score: 0,
   levelNumber: 1,
@@ -98,18 +102,34 @@ export default Ember.Component.extend(KeyboardShortcuts, {
   },
 
   movePacMan: function(direction){
-    if(!this.pathBlockedInDirection(direction)){
+    if(this.get('isMoving') || this.pathBlockedInDirection(direction)){
+      // do nothing, just wait it out
+    } else {
+      this.set('direction', direction)
+      this.set('isMoving', true)
+      this.movementLoop()
+    }
+  },
+
+  movementLoop(){
+    if(this.get('frameCycle') == this.get('framesPerMovement')){
+      let direction = this.get('direction')
       this.set('x', this.nextCoordinate('x', direction));
       this.set('y', this.nextCoordinate('y', direction));
 
+      this.set('isMoving', false);
+      this.set('frameCycle', 1);
+
       this.processAnyPellets();
+    } else {
+      this.incrementProperty('frameCycle');
+      Ember.run.later(this, this.movementLoop, 1000/60);
     }
 
     this.clearScreen();
     this.drawGrid();
     this.drawPac();
   },
-
 
   nextCoordinate(coordinate, direction){
     return this.get(coordinate) + this.get(`directions.${direction}.${coordinate}`);
