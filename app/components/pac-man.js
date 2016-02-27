@@ -6,10 +6,10 @@ export default Ember.Component.extend(KeyboardShortcuts, {
     this.movementLoop();
   },
 
-  isMoving: false,
   direction: 'down',
   frameCycle: 1,
   framesPerMovement: 30,
+  intent: 'down',
 
   score: 0,
   levelNumber: 1,
@@ -106,13 +106,12 @@ export default Ember.Component.extend(KeyboardShortcuts, {
     ctx.clearRect(0, 0, this.get('screenPixelWidth'), this.get('screenPixelHeight'))
   },
 
-  movePacMan(direction){
-    if(this.get('isMoving') || this.pathBlockedInDirection(direction)){
-      // do nothing, just wait it out
+  changePacDirection(){
+    let intent = this.get("intent")
+    if(this.pathBlockedInDirection(intent)){
+      this.set('direction', 'stopped');
     } else {
-      this.set('direction', direction)
-      this.set('isMoving', true)
-      this.movementLoop()
+      this.set('direction', intent);
     }
   },
 
@@ -122,20 +121,22 @@ export default Ember.Component.extend(KeyboardShortcuts, {
       this.set('x', this.nextCoordinate('x', direction));
       this.set('y', this.nextCoordinate('y', direction));
 
-      this.set('isMoving', false);
       this.set('frameCycle', 1);
 
       this.processAnyPellets();
 
-      Ember.run.later(this, function(){this.movePacMan(direction)}, 1000/60)
+      this.changePacDirection();
+    } else if(this.get('direction') == 'stopped'){
+      this.changePacDirection();
     } else {
       this.incrementProperty('frameCycle');
-      Ember.run.later(this, this.movementLoop, 1000/60);
     }
 
     this.clearScreen();
     this.drawGrid();
     this.drawPac();
+
+    Ember.run.later(this, this.movementLoop, 1000/60);
   },
 
   nextCoordinate(coordinate, direction){
@@ -207,9 +208,9 @@ export default Ember.Component.extend(KeyboardShortcuts, {
   },
 
   keyboardShortcuts: {
-    up() { this.movePacMan('up');},
-    down()  { this.movePacMan('down');},
-    left() { this.movePacMan('left');},
-    right() { this.movePacMan('right');},
+    up() { this.set('intent', 'up');},
+    down()  { this.set('intent', 'down');},
+    left() { this.set('intent', 'left');},
+    right() { this.set('intent', 'right');},
   },
 });
