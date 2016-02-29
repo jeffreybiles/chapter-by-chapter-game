@@ -8,6 +8,29 @@ export default Ember.Object.extend(SharedStuff, {
   x: 1,
   y: 2,
 
+  loop(){
+    if(this.animationCompleted()){
+      this.finalizeMove();
+      this.changeDirection();
+    } else if(this.get('direction') == 'stopped'){
+      this.changeDirection();
+    } else {
+      this.incrementProperty('frameCycle');
+    }
+
+    Ember.run.later(this, this.loop, 1000/142);
+  },
+  animationCompleted(){
+    return this.get('frameCycle') == this.get('framesPerMovement');
+  },
+  finalizeMove(){
+    let direction = this.get('direction');
+    this.set('x', this.nextCoordinate('x', direction));
+    this.set('y', this.nextCoordinate('y', direction));
+
+    this.set('frameCycle', 1);
+  },
+
   draw(){
     let x = this.get('x');
     let y = this.get('y');
