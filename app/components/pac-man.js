@@ -9,7 +9,11 @@ export default Ember.Component.extend(KeyboardShortcuts, SharedStuff, {
   didInsertElement() {
     let level = Level2.create()
     this.set('level', level)
-    let pac = Pac.create({level: level})
+    let pac = Pac.create({
+      level: level,
+      x: level.get('startingPac.x'),
+      y: level.get('startingPac.y')
+    })
     this.set('pac', pac)
     this.loop();
     pac.loop();

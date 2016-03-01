@@ -26,6 +26,10 @@ export default Ember.Object.extend({
     [2, 2, 2, 2, 2, 2, 2, 1],
     [1, 2, 2, 2, 2, 2, 2, 1],
   ],
+  startingPac: {
+    x: 2,
+    y: 1
+  },
 
   isComplete(){
     let hasPelletsLeft = false;
