@@ -56,7 +56,7 @@ export default Ember.Object.extend(SharedStuff, {
     let nextX = this.nextCoordinate('x', direction);
     let nextY = this.nextCoordinate('y', direction);
 
-    return this.get(`grid.${nextY}.${nextX}`);
+    return this.get(`level.grid.${nextY}.${nextX}`);
   },
 
   nextCoordinate(coordinate, direction){

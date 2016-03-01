@@ -2,10 +2,13 @@ import Ember from 'ember';
 import KeyboardShortcuts from 'ember-keyboard-shortcuts/mixins/component';
 import SharedStuff from '../mixins/shared-stuff';
 import Pac from '../models/pac';
+import Level from '../models/level';
 
 export default Ember.Component.extend(KeyboardShortcuts, SharedStuff, {
   didInsertElement() {
-    let pac = Pac.create()
+    let level = Level.create()
+    this.set('level', level)
+    let pac = Pac.create({level: level})
     this.set('pac', pac)
     this.loop();
     pac.loop();
@@ -14,22 +17,9 @@ export default Ember.Component.extend(KeyboardShortcuts, SharedStuff, {
   score: 0,
   levelNumber: 1,
 
-  screenWidth: Ember.computed(function(){
-    return this.get('grid.firstObject.length')
-  }),
-  screenHeight: Ember.computed(function(){
-    return this.get('grid.length');
-  }),
-  screenPixelWidth: Ember.computed(function(){
-    return this.get('screenWidth') * this.get('squareSize');
-  }),
-  screenPixelHeight: Ember.computed(function() {
-    return this.get('screenHeight') * this.get('squareSize');
-  }),
-
   drawWall(x, y){
     let ctx = this.get('ctx');
-    let squareSize = this.get('squareSize');
+    let squareSize = this.get('level.squareSize');
 
     ctx.fillStyle = '#000';
     ctx.fillRect(x * squareSize,
@@ -39,7 +29,7 @@ export default Ember.Component.extend(KeyboardShortcuts, SharedStuff, {
   },
 
   drawGrid(){
-    let grid = this.get('grid');
+    let grid = this.get('level.grid');
     grid.forEach((row, rowIndex)=>{
       row.forEach((cell, columnIndex)=>{
         if(cell == 1){
@@ -59,7 +49,7 @@ export default Ember.Component.extend(KeyboardShortcuts, SharedStuff, {
 
   clearScreen(){
     let ctx = this.get('ctx');
-    ctx.clearRect(0, 0, this.get('screenPixelWidth'), this.get('screenPixelHeight'))
+    ctx.clearRect(0, 0, this.get('level.pixelWidth'), this.get('level.pixelHeight'))
   },
 
   loop(){
@@ -75,40 +65,26 @@ export default Ember.Component.extend(KeyboardShortcuts, SharedStuff, {
   processAnyPellets(){
     let x = this.get('pac.x');
     let y = this.get('pac.y');
-    let grid = this.get('grid');
+    let grid = this.get('level.grid');
 
     if(grid[y][x] == 2){
       grid[y][x] = 0;
       this.incrementProperty('score')
 
-      if(this.levelComplete()){
+      if(this.get('level').isComplete()){
         this.incrementProperty('levelNumber')
-        this.restartLevel()
+        this.restart()
       }
     }
   },
 
-  levelComplete(){
-    let hasPelletsLeft = false;
-    let grid = this.get('grid');
-
-    grid.forEach((row)=>{
-      row.forEach((cell)=>{
-        if(cell == 2){
-          hasPelletsLeft = true
-        }
-      })
-    })
-    return !hasPelletsLeft;
-  },
-
-  restartLevel(){
+  restart(){
     this.set('pac.x', 0);
     this.set('pac.y', 0);
     this.set('pac.frameCycle', 0);
     this.set('pac.direction', 'stopped')
 
-    let grid = this.get('grid');
+    let grid = this.get('level.grid');
     grid.forEach((row, rowIndex)=>{
       row.forEach((cell, columnIndex)=>{
         if(cell == 0){
