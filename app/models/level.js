@@ -40,4 +40,15 @@ export default Ember.Object.extend({
     })
     return !hasPelletsLeft;
   },
+
+  restart(){
+    let grid = this.get('grid');
+    grid.forEach((row, rowIndex)=>{
+      row.forEach((cell, columnIndex)=>{
+        if(cell == 0){
+          grid[rowIndex][columnIndex] = 2
+        }
+      })
+    })
+  }
 })

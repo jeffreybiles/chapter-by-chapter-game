@@ -79,19 +79,8 @@ export default Ember.Component.extend(KeyboardShortcuts, SharedStuff, {
   },
 
   restart(){
-    this.set('pac.x', 0);
-    this.set('pac.y', 0);
-    this.set('pac.frameCycle', 0);
-    this.set('pac.direction', 'stopped')
-
-    let grid = this.get('level.grid');
-    grid.forEach((row, rowIndex)=>{
-      row.forEach((cell, columnIndex)=>{
-        if(cell == 0){
-          grid[rowIndex][columnIndex] = 2
-        }
-      })
-    })
+    this.get('pac').restart();
+    this.get('level').restart();
   },
 
   keyboardShortcuts: {

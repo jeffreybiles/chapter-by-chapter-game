@@ -31,6 +31,13 @@ export default Ember.Object.extend(SharedStuff, {
     this.set('frameCycle', 1);
   },
 
+  restart(){
+    this.set('x', 0);
+    this.set('y', 0);
+    this.set('frameCycle', 0);
+    this.set('direction', 'stopped')
+  },
+
   draw(){
     let x = this.get('x');
     let y = this.get('y');
