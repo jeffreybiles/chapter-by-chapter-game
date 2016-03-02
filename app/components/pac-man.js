@@ -19,7 +19,8 @@ export default Ember.Component.extend(KeyboardShortcuts, SharedStuff, {
     let ghost = Ghost.create({
       level: level,
       x: 0,
-      y: 0
+      y: 0,
+      pac: pac
     });
     this.set('ghost', ghost)
     ghost.loop();
