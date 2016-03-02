@@ -3,12 +3,10 @@ import SharedStuff from '../mixins/shared-stuff';
 import Movement from '../mixins/movement';
 
 export default Ember.Object.extend(SharedStuff, Movement, {
-  direction: 'down',
-  intent: 'down',
-
+  direction: 'stopped',
   restart(){
-    this.set('x', this.get('level.startingPac.x'));
-    this.set('y', this.get('level.startingPac.y'));
+    this.set('x', 0);
+    this.set('y', 0);
     this.set('frameCycle', 0);
     this.set('direction', 'stopped')
   },
@@ -21,11 +19,6 @@ export default Ember.Object.extend(SharedStuff, Movement, {
   },
 
   changeDirection(){
-    let intent = this.get("intent")
-    if(this.pathBlockedInDirection(intent)){
-      this.set('direction', 'stopped');
-    } else {
-      this.set('direction', intent);
-    }
+    // fill this in later
   },
 })
