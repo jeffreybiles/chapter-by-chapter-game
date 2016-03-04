@@ -16,14 +16,21 @@ export default Ember.Component.extend(KeyboardShortcuts, SharedStuff, {
       y: level.get('startingPac.y')
     });
     this.set('pac', pac);
-    let ghost = Ghost.create({
+    let ghost1 = Ghost.create({
       level: level,
       x: 0,
       y: 0,
       pac: pac
     });
-    this.set('ghost', ghost)
-    ghost.loop();
+    let ghost2 = Ghost.create({
+      level: level,
+      x: 5,
+      y: 0,
+      pac: pac
+    })
+    let ghosts = [ghost1, ghost2]
+    this.set('ghosts', ghosts)
+    ghosts.forEach( ghost => ghost.loop() );
     this.loop();
     pac.loop();
   },
@@ -72,7 +79,7 @@ export default Ember.Component.extend(KeyboardShortcuts, SharedStuff, {
     this.clearScreen();
     this.drawGrid();
     this.get('pac').draw();
-    this.get('ghost').draw();
+    this.get('ghosts').forEach( ghost => ghost.draw() );
 
     Ember.run.later(this, this.loop, 1000/60);
   },
