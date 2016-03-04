@@ -4,6 +4,7 @@ export default Ember.Mixin.create({
   x: null,
   y: null,
   level: null,
+  direction: 'stopped',
 
   loop(){
     if(this.animationCompleted()){
