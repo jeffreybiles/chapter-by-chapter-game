@@ -3,10 +3,15 @@ import SharedStuff from '../mixins/shared-stuff';
 import Movement from '../mixins/movement';
 
 export default Ember.Object.extend(SharedStuff, Movement, {
+  init() {
+    this.set('startingX', this.get('x'));
+    this.set('startingY', this.get('y'));
+    return this._super(...arguments);
+  },
   direction: 'stopped',
   restart(){
-    this.set('x', 0);
-    this.set('y', 0);
+    this.set('x', this.get('startingX'));
+    this.set('y', this.get('startingY'));
     this.set('frameCycle', 0);
     this.set('direction', 'stopped')
   },
