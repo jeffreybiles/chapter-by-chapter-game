@@ -81,6 +81,10 @@ export default Ember.Component.extend(KeyboardShortcuts, SharedStuff, {
     this.get('pac').draw();
     this.get('ghosts').forEach( ghost => ghost.draw() );
 
+    if(this.collidedWithGhost()){
+      this.restart();
+    }
+
     Ember.run.later(this, this.loop, 1000/60);
   },
 
@@ -100,9 +104,17 @@ export default Ember.Component.extend(KeyboardShortcuts, SharedStuff, {
     }
   },
 
+  collidedWithGhost(){
+    return this.get('ghosts').any((ghost)=>{
+      return this.get('pac.x') == ghost.get('x') &&
+             this.get('pac.y') == ghost.get('y')
+    })
+  },
+
   restart(){
     this.get('pac').restart();
     this.get('level').restart();
+    this.get('ghosts').forEach( ghost => ghost.restart() );
   },
 
   keyboardShortcuts: {
