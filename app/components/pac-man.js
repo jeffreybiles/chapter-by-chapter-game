@@ -16,19 +16,14 @@ export default Ember.Component.extend(KeyboardShortcuts, SharedStuff, {
       y: level.get('startingPac.y')
     });
     this.set('pac', pac);
-    let ghost1 = Ghost.create({
-      level: level,
-      x: 0,
-      y: 0,
-      pac: pac
-    });
-    let ghost2 = Ghost.create({
-      level: level,
-      x: 5,
-      y: 0,
-      pac: pac
+    let ghosts = level.get('startingGhosts').map((startingPosition)=>{
+      return Ghost.create({
+        level: level,
+        x: startingPosition.x,
+        y: startingPosition.y,
+        pac: pac
+      })
     })
-    let ghosts = [ghost1, ghost2]
     this.set('ghosts', ghosts)
     ghosts.forEach( ghost => ghost.loop() );
     this.loop();

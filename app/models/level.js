@@ -30,6 +30,13 @@ export default Ember.Object.extend({
     x: 2,
     y: 1
   },
+  startingGhosts: [{
+    x: 3,
+    y: 2
+  }, {
+    x: 6,
+    y: 0
+  }],
 
   isComplete(){
     let hasPelletsLeft = false;

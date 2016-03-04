@@ -14,5 +14,12 @@ export default Level.extend({
   startingPac: {
     x: 0,
     y: 3
-  }
+  },
+  startingGhosts: [{
+    x: 0,
+    y: 0
+  }, {
+    x: 5,
+    y: 0
+  }],
 })

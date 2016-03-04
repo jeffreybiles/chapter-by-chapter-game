@@ -3,8 +3,8 @@ import SharedStuff from '../mixins/shared-stuff';
 import Movement from '../mixins/movement';
 
 export default Ember.Object.extend(SharedStuff, Movement, {
-  direction: 'down',
-  intent: 'down',
+  direction: 'stopped',
+  intent: 'stopped',
 
   restart(){
     this.set('x', this.get('level.startingPac.x'));
