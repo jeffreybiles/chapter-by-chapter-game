@@ -32,6 +32,7 @@ export default Ember.Component.extend(KeyboardShortcuts, SharedStuff, {
 
   score: 0,
   levelNumber: 1,
+  lives: 3,
 
   drawWall(x, y){
     let ctx = this.get('ctx');
@@ -77,6 +78,7 @@ export default Ember.Component.extend(KeyboardShortcuts, SharedStuff, {
     this.get('ghosts').forEach( ghost => ghost.draw() );
 
     if(this.collidedWithGhost()){
+      this.decrementProperty('lives');
       this.restart();
     }
 
@@ -94,6 +96,7 @@ export default Ember.Component.extend(KeyboardShortcuts, SharedStuff, {
 
       if(this.get('level').isComplete()){
         this.incrementProperty('levelNumber')
+        this.get('level').restart();
         this.restart()
       }
     }
@@ -107,8 +110,12 @@ export default Ember.Component.extend(KeyboardShortcuts, SharedStuff, {
   },
 
   restart(){
+    if(this.get('lives') <= 0) {
+      this.set('score', 0)
+      this.set('lives', 3)
+      this.get('level').restart();
+    }
     this.get('pac').restart();
-    this.get('level').restart();
     this.get('ghosts').forEach( ghost => ghost.restart() );
   },
 
