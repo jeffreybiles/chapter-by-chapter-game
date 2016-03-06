@@ -4,10 +4,11 @@ import SharedStuff from '../mixins/shared-stuff';
 import Pac from '../models/pac';
 import Ghost from '../models/ghost';
 import Level from '../models/level';
-import Level2 from '../models/level2'
+import Level2 from '../models/level2';
+import TeleportLevel from '../models/teleport-level';
 
 export default Ember.Component.extend(KeyboardShortcuts, SharedStuff, {
-  levels: [Level, Level2],
+  levels: [TeleportLevel, Level, Level2],
 
   didInsertElement() {
     this.startNewLevel()
