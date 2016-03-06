@@ -2,6 +2,7 @@ import Ember from 'ember';
 
 export default Ember.Object.extend({
   squareSize: 40,
+  teleport: true,
   width: Ember.computed(function(){
     return this.get('grid.firstObject.length')
   }),
