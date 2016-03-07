@@ -125,7 +125,7 @@ export default Ember.Component.extend(KeyboardShortcuts, SharedStuff, {
       }
     } else if(grid[y][x] == 3){
       grid[y][x] = 0;
-      this.set('pac.poweredMode', true)
+      this.set('pac.powerMode', true)
     }
   },
 

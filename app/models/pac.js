@@ -5,6 +5,7 @@ import Movement from '../mixins/movement';
 export default Ember.Object.extend(SharedStuff, Movement, {
   direction: 'stopped',
   intent: 'stopped',
+  powerMode: false,
 
   restart(){
     this.set('x', this.get('level.startingPac.x'));
@@ -17,7 +18,8 @@ export default Ember.Object.extend(SharedStuff, Movement, {
     let x = this.get('x');
     let y = this.get('y');
     let radiusDivisor = 2;
-    this.drawCircle(x, y, radiusDivisor, this.get('direction'), '#FE0');
+    let color = this.get('powerMode') ? '#AF0' : '#FE0';
+    this.drawCircle(x, y, radiusDivisor, this.get('direction'), color);
   },
 
   changeDirection(){
