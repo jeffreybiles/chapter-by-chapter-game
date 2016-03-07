@@ -15,13 +15,6 @@ export default Ember.Object.extend({
   pixelHeight: Ember.computed(function() {
     return this.get('height') * this.get('squareSize');
   }),
-  init(){
-    this.setupGrid()
-  },
-  setupGrid(){
-    var newLayout = jQuery.extend(true, [], this.get('layout'));
-    this.set('grid', newLayout);
-  },
 
   // 0 is a blank space
   // 1 is a wall
@@ -61,6 +54,7 @@ export default Ember.Object.extend({
   },
 
   restart(){
-    this.setupGrid();
+    var newLayout = jQuery.extend(true, [], this.get('layout'));
+    this.set('grid', newLayout);
   }
 })
