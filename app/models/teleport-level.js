@@ -2,7 +2,7 @@ import Level from './level';
 
 export default Level.extend({
   squareSize: 60,
-  grid: [
+  layout: [
     [1, 1, 1, 2, 1, 1, 1, 1, 1],
     [1, 2, 2, 2, 2, 2, 2, 1, 1],
     [1, 2, 2, 2, 2, 2, 2, 2, 1],
