@@ -6,7 +6,7 @@ export default Ember.Mixin.create({
   level: null,
   direction: 'stopped',
 
-  loop(){
+  move(){
     if(this.animationCompleted()){
       this.finalizeMove();
       this.changeDirection();
@@ -15,8 +15,6 @@ export default Ember.Mixin.create({
     } else {
       this.incrementProperty('frameCycle');
     }
-
-    Ember.run.later(this, this.loop, 1000/142);
   },
   animationCompleted(){
     return this.get('frameCycle') == this.get('framesPerMovement');

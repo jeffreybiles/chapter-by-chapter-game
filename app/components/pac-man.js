@@ -11,7 +11,8 @@ export default Ember.Component.extend(KeyboardShortcuts, SharedStuff, {
   levels: [TeleportLevel, Level, Level2],
 
   didInsertElement() {
-    this.startNewLevel()
+    this.startNewLevel();
+    this.loop();
   },
 
   loadNewLevel(){
@@ -41,10 +42,6 @@ export default Ember.Component.extend(KeyboardShortcuts, SharedStuff, {
       })
     })
     this.set('ghosts', ghosts)
-
-    ghosts.forEach( ghost => ghost.loop() );
-    this.loop();
-    pac.loop();
   },
 
   score: 0,
@@ -95,6 +92,9 @@ export default Ember.Component.extend(KeyboardShortcuts, SharedStuff, {
   },
 
   loop(){
+    this.get('ghosts').forEach( ghost => ghost.move() );
+    this.get('pac').move();
+
     this.processAnyPellets();
 
     this.clearScreen();

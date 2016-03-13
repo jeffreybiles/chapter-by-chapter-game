@@ -2,7 +2,7 @@ import Ember from 'ember';
 
 export default Ember.Mixin.create({
   frameCycle: 1,
-  framesPerMovement: 30,
+  framesPerMovement: 20,
 
   ctx: Ember.computed(function(){
     let canvas = document.getElementById("myCanvas");
