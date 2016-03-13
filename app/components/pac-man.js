@@ -135,14 +135,10 @@ export default Ember.Component.extend(KeyboardShortcuts, SharedStuff, {
   },
 
   detectGhostCollisions(){
-    let collisions = [];
-    this.get('ghosts').forEach((ghost)=>{
-      if(this.get('pac.x') == ghost.get('x') &&
-         this.get('pac.y') == ghost.get('y')){
-           collisions.push(ghost);
-      }
+    return this.get('ghosts').filter((ghost)=>{
+      return (this.get('pac.x') == ghost.get('x') &&
+              this.get('pac.y') == ghost.get('y'))
     })
-    return collisions;
   },
 
   restart(){
