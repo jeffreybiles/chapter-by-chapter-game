@@ -9,7 +9,22 @@ export default Ember.Object.extend(SharedStuff, Movement, {
     return this._super(...arguments);
   },
   direction: 'stopped',
-  removed: false,
+  timers: ['retreatTime'],
+  retreatTime: 0,
+  maxRetreatTime: 500,
+  removed: Ember.computed.gt('retreatTime', 0),
+
+  color: Ember.computed('retreatTime', function(){
+    let timerPercentage = this.get('retreatTime') * 1.0 / this.get('maxRetreatTime');
+    let retreated = {r: 0, g: 0, b: 0};
+    let normal = {r: 256, g: 100, b: 100};
+    let [r, g, b] = ['r', 'g', 'b'].map(function(rgbSelector){
+      let color =  retreated[rgbSelector] * timerPercentage +
+                   normal[rgbSelector] * (1 - timerPercentage);
+      return Math.round(color);
+    });
+    return `rgb(${r},${g},${b})`;
+  }),
 
   restart(){
     this.set('x', this.get('startingX'));
@@ -19,7 +34,7 @@ export default Ember.Object.extend(SharedStuff, Movement, {
   },
 
   retreat(){
-    this.set('removed', true)
+    this.set('retreatTime', this.get('maxRetreatTime'))
     this.set('frameCycle', 0)
     this.set('x', this.get('level.ghostRetreat.x'))
     this.set('y', this.get('level.ghostRetreat.y'))
@@ -29,7 +44,7 @@ export default Ember.Object.extend(SharedStuff, Movement, {
     let x = this.get('x');
     let y = this.get('y');
     let radiusDivisor = 2;
-    this.drawCircle(x, y, radiusDivisor, this.get('direction'), '#F55');
+    this.drawCircle(x, y, radiusDivisor, this.get('direction'), this.get('color'));
   },
 
   changeDirection(){
