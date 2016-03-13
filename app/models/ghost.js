@@ -9,6 +9,8 @@ export default Ember.Object.extend(SharedStuff, Movement, {
     return this._super(...arguments);
   },
   direction: 'stopped',
+  removed: false,
+
   restart(){
     this.set('x', this.get('startingX'));
     this.set('y', this.get('startingY'));
@@ -17,14 +19,18 @@ export default Ember.Object.extend(SharedStuff, Movement, {
   },
 
   retreat(){
-    console.log('retreat!')
+    this.set('removed', true)
+    this.set('x', -1)
+    this.set('y', -1)
   },
 
   draw(){
-    let x = this.get('x');
-    let y = this.get('y');
-    let radiusDivisor = 2;
-    this.drawCircle(x, y, radiusDivisor, this.get('direction'), '#F55');
+    if(!this.get('removed')){
+      let x = this.get('x');
+      let y = this.get('y');
+      let radiusDivisor = 2;
+      this.drawCircle(x, y, radiusDivisor, this.get('direction'), '#F55');
+    }
   },
 
   changeDirection(){

@@ -7,7 +7,9 @@ export default Ember.Mixin.create({
   direction: 'stopped',
 
   move(){
-    if(this.animationCompleted()){
+    if(this.get('removed')){
+      // do nothing, it's gone
+    } else if(this.animationCompleted()){
       this.finalizeMove();
       this.changeDirection();
     } else if(this.get('direction') == 'stopped'){
