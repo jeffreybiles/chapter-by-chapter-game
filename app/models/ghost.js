@@ -25,12 +25,10 @@ export default Ember.Object.extend(SharedStuff, Movement, {
   },
 
   draw(){
-    if(!this.get('removed')){
-      let x = this.get('x');
-      let y = this.get('y');
-      let radiusDivisor = 2;
-      this.drawCircle(x, y, radiusDivisor, this.get('direction'), '#F55');
-    }
+    let x = this.get('x');
+    let y = this.get('y');
+    let radiusDivisor = 2;
+    this.drawCircle(x, y, radiusDivisor, this.get('direction'), '#F55');
   },
 
   changeDirection(){
