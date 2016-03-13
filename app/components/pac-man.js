@@ -102,9 +102,14 @@ export default Ember.Component.extend(KeyboardShortcuts, SharedStuff, {
     this.get('pac').draw();
     this.get('ghosts').forEach( ghost => ghost.draw() );
 
-    if(this.collidedWithGhost()){
-      this.decrementProperty('lives');
-      this.restart();
+    let ghostCollisions = this.detectGhostCollisions();
+    if(ghostCollisions.length > 0){
+      if(this.get('pac.powerMode')){
+        ghostCollisions.forEach( ghost => ghost.retreat() )
+      } else {
+        this.decrementProperty('lives');
+        this.restart();
+      }
     }
 
     Ember.run.later(this, this.loop, 1000/60);
@@ -129,11 +134,15 @@ export default Ember.Component.extend(KeyboardShortcuts, SharedStuff, {
     }
   },
 
-  collidedWithGhost(){
-    return this.get('ghosts').any((ghost)=>{
-      return this.get('pac.x') == ghost.get('x') &&
-             this.get('pac.y') == ghost.get('y')
+  detectGhostCollisions(){
+    let collisions = [];
+    this.get('ghosts').forEach((ghost)=>{
+      if(this.get('pac.x') == ghost.get('x') &&
+         this.get('pac.y') == ghost.get('y')){
+           collisions.push(ghost);
+      }
     })
+    return collisions;
   },
 
   restart(){

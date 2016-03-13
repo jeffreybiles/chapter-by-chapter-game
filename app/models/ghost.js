@@ -13,7 +13,11 @@ export default Ember.Object.extend(SharedStuff, Movement, {
     this.set('x', this.get('startingX'));
     this.set('y', this.get('startingY'));
     this.set('frameCycle', 0);
-    this.set('direction', 'stopped')
+    this.set('direction', 'stopped');
+  },
+
+  retreat(){
+    console.log('retreat!')
   },
 
   draw(){
