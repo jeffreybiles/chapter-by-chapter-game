@@ -23,5 +23,9 @@ export default Level.extend({
     x: 5,
     y: 1
   }],
-  teleport: true
+  teleport: true,
+  ghostRetreat: {
+    x: 4,
+    y: 3
+  }
 })

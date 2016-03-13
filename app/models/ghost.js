@@ -20,8 +20,9 @@ export default Ember.Object.extend(SharedStuff, Movement, {
 
   retreat(){
     this.set('removed', true)
-    this.set('x', -1)
-    this.set('y', -1)
+    this.set('frameCycle', 0)
+    this.set('x', this.get('level.ghostRetreat.x'))
+    this.set('y', this.get('level.ghostRetreat.y'))
   },
 
   draw(){
