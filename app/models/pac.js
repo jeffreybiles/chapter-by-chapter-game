@@ -5,7 +5,10 @@ import Movement from '../mixins/movement';
 export default Ember.Object.extend(SharedStuff, Movement, {
   direction: 'stopped',
   intent: 'stopped',
-  powerMode: false,
+  timers: ['powerModeTime'],
+  maxPowerModeTime: 400,
+  powerModeTime: 0,
+  powerMode: Ember.computed.gt('powerModeTime', 0),
 
   restart(){
     this.set('x', this.get('level.startingPac.x'));

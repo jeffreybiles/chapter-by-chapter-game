@@ -130,7 +130,7 @@ export default Ember.Component.extend(KeyboardShortcuts, SharedStuff, {
       }
     } else if(grid[y][x] == 3){
       grid[y][x] = 0;
-      this.set('pac.powerMode', true)
+      this.set('pac.powerModeTime', this.get('pac.maxPowerModeTime'));
     }
   },
 
