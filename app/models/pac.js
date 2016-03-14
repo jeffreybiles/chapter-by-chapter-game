@@ -12,14 +12,14 @@ export default Ember.Object.extend(SharedStuff, Movement, {
 
   color: Ember.computed('powerModeTime', function(){
     let timerPercentage = this.get('powerModeTime') / this.get('maxPowerModeTime');
-    let powered = {r: 150, g: 256, b: 0};
-    let normal = {r: 256, g: 240, b: 0};
+    let powered = {r: 0, g: 100, b: 0};
+    let normal = {r: 100, g: 92, b: 0};
     let [r, g, b] = ['r', 'g', 'b'].map(function(rgbSelector){
       let color =  powered[rgbSelector] * timerPercentage +
                    normal[rgbSelector] * (1 - timerPercentage)
       return Math.round(color)
     })
-    return `rgb(${r},${g},${b})`
+    return `rgb(${r}%,${g}%,${b}%)`
   }),
 
   restart(){

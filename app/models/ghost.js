@@ -17,13 +17,13 @@ export default Ember.Object.extend(SharedStuff, Movement, {
   color: Ember.computed('retreatTime', function(){
     let timerPercentage = this.get('retreatTime') / this.get('maxRetreatTime');
     let retreated = {r: 0, g: 0, b: 0};
-    let normal = {r: 256, g: 100, b: 100};
+    let normal = {r: 100, g: 40, b: 40};
     let [r, g, b] = ['r', 'g', 'b'].map(function(rgbSelector){
       let color =  retreated[rgbSelector] * timerPercentage +
                    normal[rgbSelector] * (1 - timerPercentage);
       return Math.round(color);
     });
-    return `rgb(${r},${g},${b})`;
+    return `rgb(${r}%,${g}%,${b}%)`;
   }),
 
   restart(){
